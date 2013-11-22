@@ -2,6 +2,7 @@
 #define GTKMM_EXAMPLEWINDOW_H
 
 #include <gtkmm.h>
+#include "audioclass.h"
 
 class ExampleWindow : public Gtk::Dialog
 {
@@ -17,6 +18,9 @@ protected:
   Gtk::ScrolledWindow m_ScrolledWindow;
   Gtk::Grid m_Grid;
   Gtk::Button m_Button_Close;
+
+private:
+  AudioClass my_card;
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H

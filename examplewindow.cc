@@ -33,7 +33,6 @@ ExampleWindow::ExampleWindow()
     /* pack the grid into the scrolled window */
     m_ScrolledWindow.add(m_Grid);
 
-    AudioClass my_card;
     my_card.open();
 
     /* this simply creates a grid of toggle buttons

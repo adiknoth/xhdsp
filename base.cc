@@ -1,7 +1,6 @@
 #include <gtkmm.h>
 #include <cstdio>
 #include "examplewindow.h"
-#include "audioclass.h"
 
 int main(int argc, char *argv[])
 {

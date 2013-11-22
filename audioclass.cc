@@ -138,6 +138,7 @@ void AudioClass::setGain(int source, int dest, int gain)
     snd_ctl_elem_value_t *m_ctl;
 
     if (!m_handle) {
+        printf ("Kein handle. WTF?");
         open();
     }
 
