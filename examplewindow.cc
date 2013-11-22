@@ -63,19 +63,21 @@ ExampleWindow::ExampleWindow()
 		Gtk::Frame* pButton = Gtk::manage(new Gtk::Frame(s_value));
 		pButton->set_label_align(Gtk::ALIGN_FILL,
 				Gtk::ALIGN_FILL);
+
+		/* green */
+		if (0.0 == value) {
+			pButton->override_background_color(Gdk::RGBA("#00ff00"));
+		}
+
 		m_Grid.attach(*pButton, dest, source, 1, 1);
 
 		/* Labels for Input/Playback */
 		if (0 == dest) {
 			Gtk::Label* newlabel = Gtk::manage(new Gtk::Label());
-#if 0
-			Glib::ustring chlabel = "<b>" + my_card.getSourceName(source) + "</b>";
-#else
 			Glib::ustring chlabel = "<b>" +
 				Glib::ustring::compose("%1",
 					my_card.getSourceName(source)) +
 				"</b>";
-#endif
 			newlabel->set_markup(chlabel);
 			m_Grid.attach(*newlabel, -1, source, 1, 1);
 		}
