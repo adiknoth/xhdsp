@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <iostream>
 
+
 ExampleWindow::ExampleWindow()
     : m_Button_Close("Close")
 {
@@ -30,8 +31,15 @@ ExampleWindow::ExampleWindow()
     m_ScrolledWindow.add(m_Grid);
 
     AudioClass my_card;
-
     my_card.open();
+
+    for(int dest = 0; dest < my_card.getDestChannels(); dest++) {
+	    for(int source = 0; source < my_card.getSourceChannels(); source++)
+		    if (-1 == my_card.getGain(source, dest)) {
+			    printf ("error\n");
+		    }
+    }
+
 
 
     /* this simply creates a grid of toggle buttons
@@ -40,10 +48,27 @@ ExampleWindow::ExampleWindow()
     {
         for(int source = 0; source < my_card.getSourceChannels(); source++)
         {
-            Glib::ustring s_value = std::to_string (my_card.getGain(source, dest));
-            Gtk::Label* pButton = Gtk::manage(new Gtk::Label(s_value));
-            m_Grid.attach(*pButton, dest, source, 1, 1);
-        }
+		long int value= my_card.getGain(source, dest);
+		Glib::ustring s_value = Glib::ustring::compose("%1", value);
+
+		Gtk::Label* pButton = Gtk::manage(new Gtk::Label(s_value));
+		m_Grid.attach(*pButton, dest, source, 1, 1);
+
+		/* Labels for Input/Playback */
+		if (0 == dest) {
+			Gtk::Label* newlabel = Gtk::manage(new Gtk::Label());
+			//Glib::ustring chlabel = "<b>" + my_card.getSourceName(source) + "</b>";
+			Glib::ustring chlabel = "<b>in " +
+				Glib::ustring::compose("%1", source) + "</b>";
+			newlabel->set_markup(chlabel);
+			m_Grid.attach(*newlabel, -1, source, 1, 1);
+		}
+	}
+        Gtk::Label* pButton = Gtk::manage(new Gtk::Label());
+	//Glib::ustring chlabel = "<b>" + my_card.getDestName(dest) + "</b>";
+	Glib::ustring chlabel = "<b>out " + Glib::ustring::compose("%1",dest) + "</b>";
+        pButton->set_markup(chlabel);
+        m_Grid.attach(*pButton, dest, -1, 1, 1);
     }
 
     /* Add a "close" button to the bottom of the dialog */

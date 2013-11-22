@@ -2,6 +2,7 @@
 #define _AUDIOCLASS_H
 
 #include <alsa/asoundlib.h>
+#include <string>
 
 class AudioClass
 {
@@ -12,21 +13,17 @@ class AudioClass
         double getGaindB(int source, int dest);
         int getSourceChannels();
         int getDestChannels();
+        std::string getDestName(int dest);
+        std::string getSourceName(int source);
         void open(char *cardname);
         void open();
-
-    protected:
-        snd_hwdep_info_t *m_info;
-
-        snd_ctl_elem_id_t *m_id;
-        snd_ctl_elem_value_t *m_ctl;
-        snd_ctl_t *m_handle;
+        void close();
 
     private:
         void complain(int err);
-        void close();
         int getPlaybackOffset();
         int sourceToALSA(int source);
+        snd_ctl_t *m_handle;
 
 };
 
