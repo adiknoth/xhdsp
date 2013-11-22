@@ -3,7 +3,7 @@
 
 #include <gtkmm.h>
 
-class ExampleWindow : public Gtk::Dialog
+class ExampleWindow : public Gtk::Window
 {
 public:
   ExampleWindow();
