@@ -1,9 +1,10 @@
-#include "examplewindow.h"
-#include "audioclass.h"
 #include <glibmm/ustring.h>
 #include <cstdio>
 #include <iostream>
 #include <iomanip>
+#include "examplewindow.h"
+#include "audioclass.h"
+#include "fadercell.h"
 
 using Glib::ustring;
 
@@ -53,21 +54,13 @@ ExampleWindow::ExampleWindow()
     {
         for(int source = 0; source < my_card.getSourceChannels(); source++)
         {
-		//long int value= my_card.getGain(source, dest);
-		double value = my_card.getGaindB(source, dest);
-		Glib::ustring s_value = "";
-		if (DBL_MAX != value) {
-			s_value = ustring::format(std::fixed, std::setprecision(1), value);
-		}
-
-		Gtk::Frame* pButton = Gtk::manage(new Gtk::Frame(s_value));
+		FaderCell* pButton = Gtk::manage(new FaderCell(""));
 		pButton->set_label_align(Gtk::ALIGN_FILL,
 				Gtk::ALIGN_FILL);
 
-		/* green */
-		if (0.0 == value) {
-			pButton->override_background_color(Gdk::RGBA("#00ff00"));
-		}
+
+		double value = my_card.getGaindB(source, dest);
+		pButton->set_value(value);
 
 		m_Grid.attach(*pButton, dest, source, 1, 1);
 

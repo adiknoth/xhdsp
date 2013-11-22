@@ -6,7 +6,7 @@ CXXFLAGS := $(DEBUG) `pkg-config gtkmm-3.0 --cflags`
 %.o: %.cc %.h
 	$(CXX) $(CXXFLAGS) -c $<
 
-simple: audioclass.o base.o examplewindow.o
+simple: audioclass.o base.o examplewindow.o fadercell.o
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 
