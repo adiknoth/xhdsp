@@ -13,8 +13,8 @@ class AudioClass
         double getGaindB(int source, int dest);
         int getSourceChannels();
         int getDestChannels();
-        std::string getDestName(int dest);
-        std::string getSourceName(int source);
+        const char* getDestName(int dest);
+        const char* getSourceName(int source);
         void open(char *cardname);
         void open();
         void close();

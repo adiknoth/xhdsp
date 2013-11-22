@@ -33,12 +33,14 @@ ExampleWindow::ExampleWindow()
     AudioClass my_card;
     my_card.open();
 
+#if 0
     for(int dest = 0; dest < my_card.getDestChannels(); dest++) {
 	    for(int source = 0; source < my_card.getSourceChannels(); source++)
 		    if (-1 == my_card.getGain(source, dest)) {
 			    printf ("error\n");
 		    }
     }
+#endif
 
 
 
@@ -57,16 +59,21 @@ ExampleWindow::ExampleWindow()
 		/* Labels for Input/Playback */
 		if (0 == dest) {
 			Gtk::Label* newlabel = Gtk::manage(new Gtk::Label());
-			//Glib::ustring chlabel = "<b>" + my_card.getSourceName(source) + "</b>";
-			Glib::ustring chlabel = "<b>in " +
-				Glib::ustring::compose("%1", source) + "</b>";
+#if 0
+			Glib::ustring chlabel = "<b>" + my_card.getSourceName(source) + "</b>";
+#else
+			Glib::ustring chlabel = "<b>" +
+				Glib::ustring::compose("%1",
+					my_card.getSourceName(source)) +
+				"</b>";
+#endif
 			newlabel->set_markup(chlabel);
 			m_Grid.attach(*newlabel, -1, source, 1, 1);
 		}
 	}
         Gtk::Label* pButton = Gtk::manage(new Gtk::Label());
-	//Glib::ustring chlabel = "<b>" + my_card.getDestName(dest) + "</b>";
-	Glib::ustring chlabel = "<b>out " + Glib::ustring::compose("%1",dest) + "</b>";
+	Glib::ustring chlabel = "<b>" + Glib::ustring::compose("%1", my_card.getDestName(dest)) + "</b>";
+	//Glib::ustring chlabel = "<b>out " + Glib::ustring::compose("%1",dest) + "</b>";
         pButton->set_markup(chlabel);
         m_Grid.attach(*pButton, dest, -1, 1, 1);
     }
