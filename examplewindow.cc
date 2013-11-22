@@ -3,6 +3,9 @@
 #include <glibmm/ustring.h>
 #include <cstdio>
 #include <iostream>
+#include <iomanip>
+
+using Glib::ustring;
 
 
 ExampleWindow::ExampleWindow()
@@ -50,10 +53,16 @@ ExampleWindow::ExampleWindow()
     {
         for(int source = 0; source < my_card.getSourceChannels(); source++)
         {
-		long int value= my_card.getGain(source, dest);
-		Glib::ustring s_value = Glib::ustring::compose("%1", value);
+		//long int value= my_card.getGain(source, dest);
+		double value = my_card.getGaindB(source, dest);
+		Glib::ustring s_value = "";
+		if (DBL_MAX != value) {
+			s_value = ustring::format(std::fixed, std::setprecision(1), value);
+		}
 
-		Gtk::Label* pButton = Gtk::manage(new Gtk::Label(s_value));
+		Gtk::Frame* pButton = Gtk::manage(new Gtk::Frame(s_value));
+		pButton->set_label_align(Gtk::ALIGN_FILL,
+				Gtk::ALIGN_FILL);
 		m_Grid.attach(*pButton, dest, source, 1, 1);
 
 		/* Labels for Input/Playback */

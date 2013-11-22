@@ -1,6 +1,8 @@
 #include "audioclass.h"
 #include <glibmm/ustring.h>
+#include <cmath>
 #include <iostream>
+#include <iomanip>
 
 const char dest_map_mf_ss[] = {
         0, 1, 2, 3, 4, 5, 6, 7, /* analog */
@@ -38,7 +40,7 @@ const char* AudioClass::getSourceName(int source)
         ret = labels_mf_ss[source];
     } else {
         Glib::ustring *foo = new Glib::ustring("");
-        foo->append("Out" + Glib::ustring::compose("%1", (source - getSourceChannels()/2)));
+        foo->append("Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2)));
         ret = foo->c_str();
         //ret = labels_mf_ss[source - getSourceChannels()/2];
     }
@@ -132,8 +134,24 @@ long int AudioClass::getGain(int source, int dest)
 double AudioClass::getGaindB(int source, int dest)
 {
     long int gain = getGain(source, dest);
-    //double db = 20.0 * log10(gain);
-    return 0.0;
+    double ret;
+
+    switch (gain) {
+        case 32768:
+            ret = 0.0;
+            break;
+        case 0:
+            ret = DBL_MAX;
+            break;
+        case 65535:
+            ret = 6.0;
+            break;
+        default:
+            ret = 20.0 * log10(gain/32768.0);
+            break;
+    }
+
+    return ret;
 }
 
 
