@@ -1,7 +1,8 @@
 #include "fadercell.h"
 
-FaderCell::FaderCell(int source, int dest) :
+FaderCell::FaderCell(AudioClass& card, int source, int dest) :
 	m_frame("")
+	, m_card(card)
 {
 	m_string_value = "";
 	m_source = source;
@@ -18,6 +19,10 @@ FaderCell::FaderCell(int source, int dest) :
 				&FaderCell::on_fadercell_clicked), false);
 }
 
+long int FaderCell::get_value()
+{
+	return m_value;
+}
 
 void FaderCell::set_value(double value) {
 	m_value = value;
@@ -35,11 +40,25 @@ void FaderCell::set_value(double value) {
 		m_frame.override_background_color(Gdk::RGBA("#00ff00"));
 	} else if (6.0 > value) {
 		m_frame.override_background_color(Gdk::RGBA("yellow"));
+	} else {
+		m_frame.unset_background_color();
 	}
 }
 
 bool FaderCell::on_fadercell_clicked(GdkEventButton *ev)
 {
+	double new_value;
 	printf ("%i: %i\n", m_source, m_dest);
-	return false;
+	if (m_value != 0.0) {
+		new_value = 0.0;
+	} else {
+		new_value = DBL_MAX;
+	}
+
+	set_value(new_value);
+
+	m_card.setGaindB(m_source, m_dest, new_value);
+
+	/* true == fully handled */
+	return true;
 }

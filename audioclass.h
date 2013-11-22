@@ -11,6 +11,8 @@ class AudioClass
         virtual ~AudioClass();
         long int getGain(int source, int dest);
         double getGaindB(int source, int dest);
+        void setGain(int source, int dest, int gain);
+        int setGaindB(int source, int dest, double gaindB);
         int getSourceChannels();
         int getDestChannels();
         const char* getDestName(int dest);

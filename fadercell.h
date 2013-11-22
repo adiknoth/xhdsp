@@ -4,14 +4,16 @@
 #include <gtkmm.h>
 #include <glibmm/ustring.h>
 #include <iomanip>
+#include "audioclass.h"
 
 using Glib::ustring;
 
 class FaderCell : public Gtk::Bin
 {
 public:
-	FaderCell(int source, int dest);
+	FaderCell(AudioClass& card, int source, int dest);
 	void set_value(double value);
+	long int get_value();
 	//Signal handlers:
 	bool on_fadercell_clicked(GdkEventButton *ev);
 
@@ -23,6 +25,7 @@ private:
 	double m_value;
 	int m_source;
 	int m_dest;
+	AudioClass& m_card;
 	Glib::ustring m_string_value;
 };
 

@@ -24,7 +24,7 @@ ExampleWindow::ExampleWindow()
      * the vertical. */
     m_ScrolledWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_NEVER);
 
-    add(m_ScrolledWindow);
+    get_content_area()->add(m_ScrolledWindow);
 
     /* set the spacing to 10 on x and 10 on y */
     m_Grid.set_row_spacing(0);
@@ -42,7 +42,7 @@ ExampleWindow::ExampleWindow()
     {
         for(int source = 0; source < my_card.getSourceChannels(); source++)
         {
-		FaderCell* pButton = Gtk::manage(new FaderCell(source, dest));
+		FaderCell* pButton = Gtk::manage(new FaderCell(my_card, source, dest));
 
 
 		double value = my_card.getGaindB(source, dest);
@@ -68,13 +68,13 @@ ExampleWindow::ExampleWindow()
         m_Grid.attach(*pButton, dest, -1, 1, 1);
     }
 
-#if 0
+#if 1
     /* Add a "close" button to the bottom of the dialog */
     m_Button_Close.signal_clicked().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_button_close));
 
     /* this makes it so the button is the default. */
-    //m_Button_Close.set_can_default();
+    m_Button_Close.set_can_default();
 
     Gtk::Box* pBox = get_action_area();
     if(pBox)
@@ -82,7 +82,7 @@ ExampleWindow::ExampleWindow()
 
     /* This grabs this button to be the default button. Simply hitting
      * the "Enter" key will cause this button to activate. */
-    //m_Button_Close.grab_default();
+    m_Button_Close.grab_default();
 #endif
 
     show_all_children();

@@ -131,6 +131,58 @@ long int AudioClass::getGain(int source, int dest)
 
 }
 
+void AudioClass::setGain(int source, int dest, int gain)
+{
+    int err;
+    snd_ctl_elem_id_t *m_id;
+    snd_ctl_elem_value_t *m_ctl;
+
+    if (!m_handle) {
+        open();
+    }
+
+    snd_ctl_elem_value_alloca(&m_ctl);
+    snd_ctl_elem_id_alloca(&m_id);
+    snd_ctl_elem_id_set_name(m_id, "Mixer");
+    snd_ctl_elem_id_set_interface(m_id, SND_CTL_ELEM_IFACE_HWDEP);
+    snd_ctl_elem_id_set_device(m_id, 0);
+    snd_ctl_elem_id_set_index(m_id, 0);
+    snd_ctl_elem_value_set_id(m_ctl, m_id);
+
+    snd_ctl_elem_value_set_integer(m_ctl, 0, sourceToALSA(source));
+    snd_ctl_elem_value_set_integer(m_ctl, 1, dest_map_mf_ss[dest]);
+    snd_ctl_elem_value_set_integer(m_ctl, 2, gain);
+
+    if ((err = snd_ctl_elem_write(m_handle, m_ctl)) < 0) {
+        complain(err);
+    }
+}
+
+int AudioClass::setGaindB(int source, int dest, double gaindB)
+{
+    int gain;
+
+    if (0.0 == gaindB)
+        gain = 32768;
+    else if (DBL_MAX == gaindB)
+        gain = 0;
+    else {
+        double tmp = gaindB / 20.0;
+        tmp += log10(32768.0);
+        gain = pow(10, tmp);
+    }
+
+    if (gain > 65535)
+        gain = 65535;
+
+    printf ("gain to write: %i\n", gain);
+
+    setGain(source, dest, gain);
+
+    return gain;
+
+}
+
 double AudioClass::getGaindB(int source, int dest)
 {
     long int gain = getGain(source, dest);
@@ -158,6 +210,7 @@ double AudioClass::getGaindB(int source, int dest)
 
 AudioClass::AudioClass()
 {
+    printf ("audioclass opened\n");
 }
 
 AudioClass::~AudioClass()
