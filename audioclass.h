@@ -15,7 +15,7 @@ class AudioClass
         int setGaindB(int source, int dest, double gaindB);
         virtual int getSourceChannels() { return m_sourcechannels; };
         virtual int getDestChannels() { return m_destchannels; };
-        virtual const char* getDestName(int dest) = 0;
+        virtual std::string& getDestName(int dest) = 0;
         virtual const char* getSourceName(int source) = 0;
         void open();
         void close();
