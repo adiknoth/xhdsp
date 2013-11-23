@@ -27,21 +27,19 @@ std::vector<std::string> labels_mf_ss = {
 };
 
 
-std::string& MultiFace::getDestName(int dest)
+std::string MultiFace::getDestName(int dest)
 {
     return labels_mf_ss[dest];
 }
 
-const char* MultiFace::getSourceName(int source)
+std::string MultiFace::getSourceName(int source)
 {
-    const char* ret;
+    std::string ret;
 
     if (source < getSourceChannels()/2) {
-        ret = labels_mf_ss[source].c_str();
+        ret = labels_mf_ss[source];
     } else {
-        Glib::ustring *foo = new Glib::ustring("");
-        foo->append("Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2)));
-        ret = foo->c_str();
+        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2));
         //ret = labels_mf_ss[source - getSourceChannels()/2];
     }
 

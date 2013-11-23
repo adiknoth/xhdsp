@@ -7,8 +7,8 @@ class MultiFace : public AudioClass
 {
 public:
 	MultiFace(std::string& cardname);
-	std::string& getDestName(int dest);
-        const char* getSourceName(int source);
+	std::string getDestName(int dest);
+	std::string getSourceName(int source);
 
 private:
         int sourceToALSA(int source);
