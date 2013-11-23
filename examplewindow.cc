@@ -52,16 +52,16 @@ ExampleWindow::ExampleWindow()
 		/* Labels for Input/Playback */
 		if (0 == dest) {
 			Gtk::Label* newlabel = Gtk::manage(new Gtk::Label());
-			Glib::ustring chlabel = "<b>" +
+			Glib::ustring chlabel = "<b><span size=\"x-small\">" +
 				Glib::ustring::compose("%1",
 					my_card.getSourceName(source)) +
-				"</b>";
+				"</span></b>";
 			newlabel->set_markup(chlabel);
 			m_Grid.attach(*newlabel, -1, source, 1, 1);
 		}
 	}
         Gtk::Label* pButton = Gtk::manage(new Gtk::Label());
-	Glib::ustring chlabel = "<b>" + Glib::ustring::compose("%1", my_card.getDestName(dest)) + "</b>";
+	Glib::ustring chlabel = "<b><span size=\"x-small\">" + Glib::ustring::compose("%1", my_card.getDestName(dest)) + "</span></b>";
 	//Glib::ustring chlabel = "<b>out " + Glib::ustring::compose("%1",dest) + "</b>";
         pButton->set_markup(chlabel);
         m_Grid.attach(*pButton, dest, -1, 1, 1);

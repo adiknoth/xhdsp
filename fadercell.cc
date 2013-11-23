@@ -11,6 +11,8 @@ FaderCell::FaderCell(AudioClass& card, int source, int dest) :
 	m_frame.set_label_align(Gtk::ALIGN_FILL,
 			Gtk::ALIGN_FILL);
 
+	m_frame.set_border_width(0);
+
 	set_events(Gdk::BUTTON_PRESS_MASK);
 	add(m_eventbox);
 	m_eventbox.add(m_frame);
@@ -28,12 +30,14 @@ void FaderCell::set_value(double value) {
 	m_value = value;
 
 	if (DBL_MAX != value) {
-		m_string_value = ustring::format(std::fixed, std::setprecision(1), value);
+		m_string_value = "<span size=\"x-small\">" + ustring::format(std::fixed, std::setprecision(1), value) +
+			"</span>";
 	} else {
 		m_string_value = "";
 	}
 
-	m_frame.set_label(m_string_value);
+	Gtk::Label *tmp = static_cast<Gtk::Label*> (m_frame.get_label_widget());
+	tmp->set_markup(m_string_value);
 
 	/* green */
 	if (0.0 == value) {
