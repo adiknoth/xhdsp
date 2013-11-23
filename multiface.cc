@@ -59,19 +59,6 @@ int MultiFace::sourceToALSA(int source)
     }
 };
 
-int MultiFace::getSourceChannels()
-{
-    return 18*2;
-}
-
-int MultiFace::getDestChannels()
-{
-    return 10*2;
-}
-
-int MultiFace::getPlaybackOffset() { return 26; };
-
-
 int MultiFace::destToALSA(int dest)
 {
     return dest_map_mf_ss[dest];
@@ -80,5 +67,8 @@ int MultiFace::destToALSA(int dest)
 MultiFace::MultiFace(std::string& cardname) :
 	AudioClass(cardname)
 {
+	m_playbackoffset = 26;
+	m_sourcechannels = 18*2;
+	m_destchannels = 10*2;
     printf ("multiface opened\n");
 }
