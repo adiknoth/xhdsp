@@ -4,49 +4,6 @@
 #include <iostream>
 #include <iomanip>
 
-const char dest_map_mf_ss[] = {
-        0, 1, 2, 3, 4, 5, 6, 7, /* analog */
-        16, 17, 18, 19, 20, 21, 22, 23, /* adat */
-        24, 25, /* spdif */
-        26, 27 /* phones */
-};
-
-const char channel_map_mf_ss[26] = {
-        0, 1, 2, 3, 4, 5, 6, 7,         /* Line in */
-        16, 17, 18, 19, 20, 21, 22, 23, /* ADAT */
-        24, 25,                         /* SPDIF */
-        26, 27,             /* Phones L+R, only a destination channel */
-        -1, -1, -1, -1, -1, -1
-};
-
-const char *labels_mf_ss[20] = {
-    "AN 1", "AN 2", "AN 3", "AN 4", "AN 5", "AN 6", "AN 7", "AN 8",
-    "A 1", "A 2", "A 3", "A 4", "A 5", "A 6", "A 7", "A 8",
-    "SP.L", "SP.R", "AN.L", "AN.R"
-};
-
-
-const char* AudioClass::getDestName(int dest)
-{
-    const char* ret = labels_mf_ss[dest];
-    return ret;
-}
-
-const char* AudioClass::getSourceName(int source)
-{
-    const char* ret;
-
-    if (source < getSourceChannels()/2) {
-        ret = labels_mf_ss[source];
-    } else {
-        Glib::ustring *foo = new Glib::ustring("");
-        foo->append("Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2)));
-        ret = foo->c_str();
-        //ret = labels_mf_ss[source - getSourceChannels()/2];
-    }
-
-    return ret;
-}
 
 void AudioClass::close()
 {
@@ -75,29 +32,6 @@ void AudioClass::open()
     open((char*)"hw:DSP");
 }
 
-int AudioClass::getPlaybackOffset() { return 26; };
-
-int AudioClass::sourceToALSA(int source)
-{
-    if (source < getSourceChannels()/2) {
-        /* input channels */
-        return channel_map_mf_ss[source];
-    } else {
-        /* playback channels */
-        return getPlaybackOffset()+channel_map_mf_ss[source-getSourceChannels()/2];
-    }
-};
-
-int AudioClass::getSourceChannels()
-{
-    return 18*2;
-}
-
-int AudioClass::getDestChannels()
-{
-    return 10*2;
-}
-
 long int AudioClass::getGain(int source, int dest)
 {
     int err;
@@ -115,7 +49,7 @@ long int AudioClass::getGain(int source, int dest)
     snd_ctl_elem_value_set_id(m_ctl, m_id);
 
     snd_ctl_elem_value_set_integer(m_ctl, 0, sourceToALSA(source));
-    snd_ctl_elem_value_set_integer(m_ctl, 1, dest_map_mf_ss[dest]);
+    snd_ctl_elem_value_set_integer(m_ctl, 1, destToALSA(dest));
 
     if ((err = snd_ctl_elem_read(m_handle, m_ctl)) < 0) {
         complain(err);
@@ -151,7 +85,7 @@ void AudioClass::setGain(int source, int dest, int gain)
     snd_ctl_elem_value_set_id(m_ctl, m_id);
 
     snd_ctl_elem_value_set_integer(m_ctl, 0, sourceToALSA(source));
-    snd_ctl_elem_value_set_integer(m_ctl, 1, dest_map_mf_ss[dest]);
+    snd_ctl_elem_value_set_integer(m_ctl, 1, destToALSA(dest));
     snd_ctl_elem_value_set_integer(m_ctl, 2, gain);
 
     if ((err = snd_ctl_elem_write(m_handle, m_ctl)) < 0) {

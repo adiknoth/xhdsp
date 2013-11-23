@@ -13,19 +13,21 @@ class AudioClass
         double getGaindB(int source, int dest);
         void setGain(int source, int dest, int gain);
         int setGaindB(int source, int dest, double gaindB);
-        int getSourceChannels();
-        int getDestChannels();
-        const char* getDestName(int dest);
-        const char* getSourceName(int source);
+        virtual int getSourceChannels() = 0;
+        virtual int getDestChannels() = 0;
+        virtual const char* getDestName(int dest) = 0;
+        virtual const char* getSourceName(int source) = 0;
         void open(char *cardname);
         void open();
         void close();
 
     private:
         void complain(int err);
-        int getPlaybackOffset();
-        int sourceToALSA(int source);
+        virtual int getPlaybackOffset() = 0;
+        virtual int sourceToALSA(int source) = 0;
+        virtual int destToALSA(int source) = 0;
         snd_ctl_t *m_handle;
+	std::string cardname;
 
 };
 

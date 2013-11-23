@@ -3,10 +3,10 @@ DEBUG := -g
 FOO := -D_THREAD_SAFE -D_REENTRANT
 CXXFLAGS := $(DEBUG) `pkg-config gtkmm-3.0 --cflags`
 
-%.o: %.cc %.h
+%.o: %.cc *.h
 	$(CXX) $(CXXFLAGS) -c $<
 
-simple: audioclass.o base.o examplewindow.o fadercell.o
+simple: audioclass.o base.o examplewindow.o fadercell.o multiface.o
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 

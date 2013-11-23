@@ -20,7 +20,7 @@ protected:
   Gtk::Button m_Button_Close;
 
 private:
-  AudioClass my_card;
+  AudioClass* my_card;
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H

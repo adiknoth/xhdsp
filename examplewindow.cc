@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "examplewindow.h"
 #include "audioclass.h"
+#include "multiface.h"
 #include "fadercell.h"
 
 using Glib::ustring;
@@ -33,18 +34,19 @@ ExampleWindow::ExampleWindow()
     /* pack the grid into the scrolled window */
     m_ScrolledWindow.add(m_Grid);
 
-    my_card.open();
+    my_card = new MultiFace();
+    my_card->open();
 
     /* this simply creates a grid of toggle buttons
      * to demonstrate the scrolled window. */
-    for(int dest = 0; dest < my_card.getDestChannels(); dest++)
+    for(int dest = 0; dest < my_card->getDestChannels(); dest++)
     {
-        for(int source = 0; source < my_card.getSourceChannels(); source++)
+        for(int source = 0; source < my_card->getSourceChannels(); source++)
         {
-		FaderCell* pButton = Gtk::manage(new FaderCell(my_card, source, dest));
+		FaderCell* pButton = Gtk::manage(new FaderCell(*my_card, source, dest));
 
 
-		double value = my_card.getGaindB(source, dest);
+		double value = my_card->getGaindB(source, dest);
 		pButton->set_value(value);
 
 		m_Grid.attach(*pButton, dest, source, 1, 1);
@@ -54,14 +56,14 @@ ExampleWindow::ExampleWindow()
 			Gtk::Label* newlabel = Gtk::manage(new Gtk::Label());
 			Glib::ustring chlabel = "<b><span size=\"x-small\">" +
 				Glib::ustring::compose("%1",
-					my_card.getSourceName(source)) +
+					my_card->getSourceName(source)) +
 				"</span></b>";
 			newlabel->set_markup(chlabel);
 			m_Grid.attach(*newlabel, -1, source, 1, 1);
 		}
 	}
         Gtk::Label* pButton = Gtk::manage(new Gtk::Label());
-	Glib::ustring chlabel = "<b><span size=\"x-small\">" + Glib::ustring::compose("%1", my_card.getDestName(dest)) + "</span></b>";
+	Glib::ustring chlabel = "<b><span size=\"x-small\">" + Glib::ustring::compose("%1", my_card->getDestName(dest)) + "</span></b>";
 	//Glib::ustring chlabel = "<b>out " + Glib::ustring::compose("%1",dest) + "</b>";
         pButton->set_markup(chlabel);
         m_Grid.attach(*pButton, dest, -1, 1, 1);
