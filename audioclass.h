@@ -7,7 +7,7 @@
 class AudioClass
 {
     public:
-        AudioClass();
+        AudioClass(std::string& cardname);
         virtual ~AudioClass();
         long int getGain(int source, int dest);
         double getGaindB(int source, int dest);
@@ -17,7 +17,6 @@ class AudioClass
         virtual int getDestChannels() = 0;
         virtual const char* getDestName(int dest) = 0;
         virtual const char* getSourceName(int source) = 0;
-        void open(char *cardname);
         void open();
         void close();
 
@@ -27,7 +26,7 @@ class AudioClass
         virtual int sourceToALSA(int source) = 0;
         virtual int destToALSA(int source) = 0;
         snd_ctl_t *m_handle;
-	std::string cardname;
+	std::string m_cardname;
 
 };
 

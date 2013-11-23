@@ -34,7 +34,8 @@ ExampleWindow::ExampleWindow()
     /* pack the grid into the scrolled window */
     m_ScrolledWindow.add(m_Grid);
 
-    my_card = new MultiFace();
+    std::string cardname = "hw:DSP";
+    my_card = new MultiFace(cardname);
     my_card->open();
 
     /* this simply creates a grid of toggle buttons

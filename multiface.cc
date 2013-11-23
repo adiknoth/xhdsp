@@ -76,3 +76,9 @@ int MultiFace::destToALSA(int dest)
 {
     return dest_map_mf_ss[dest];
 }
+
+MultiFace::MultiFace(std::string& cardname) :
+	AudioClass(cardname)
+{
+    printf ("multiface opened\n");
+}

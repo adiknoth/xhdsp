@@ -16,20 +16,15 @@ void AudioClass::complain(int err)
         //std::cerr << "ALSA error:" << snd_strerror(err) << std::endl;
 }
 
-void AudioClass::open(char *cardname)
+void AudioClass::open()
 {
     int err;
 
 
-    if ((err = snd_ctl_open(&m_handle, "hw:DSP", 0)) < 0) {
+    if ((err = snd_ctl_open(&m_handle, m_cardname.c_str(), 0)) < 0) {
         complain(err);
         exit (1);
     }
-}
-
-void AudioClass::open()
-{
-    open((char*)"hw:DSP");
 }
 
 long int AudioClass::getGain(int source, int dest)
@@ -143,7 +138,8 @@ double AudioClass::getGaindB(int source, int dest)
 
 
 
-AudioClass::AudioClass()
+AudioClass::AudioClass(std::string& cardname) :
+	m_cardname(cardname)
 {
     printf ("audioclass opened\n");
 }
