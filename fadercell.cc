@@ -53,7 +53,10 @@ bool FaderCell::on_fadercell_clicked(GdkEventButton *ev)
 {
 	double new_value;
 	printf ("%i: %i\n", m_source, m_dest);
-	if (m_value != 0.0) {
+
+	if (ev->button != 1) {
+		new_value = -6.0;
+	} else if (m_value != 0.0) {
 		new_value = 0.0;
 	} else {
 		new_value = DBL_MAX;
