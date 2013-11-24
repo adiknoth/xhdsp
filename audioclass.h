@@ -7,7 +7,7 @@
 class AudioClass
 {
     public:
-        AudioClass(std::string& cardname);
+        AudioClass(std::string cardname);
         virtual ~AudioClass();
         long int getGain(int source, int dest);
         double getGaindB(int source, int dest);

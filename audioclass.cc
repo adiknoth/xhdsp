@@ -138,7 +138,7 @@ double AudioClass::getGaindB(int source, int dest)
 
 
 
-AudioClass::AudioClass(std::string& cardname) :
+AudioClass::AudioClass(std::string cardname) :
 	m_cardname(cardname)
 {
     printf ("audioclass opened\n");

@@ -34,8 +34,34 @@ ExampleWindow::ExampleWindow()
     /* pack the grid into the scrolled window */
     m_ScrolledWindow.add(m_Grid);
 
-    std::string cardname = "hw:DSP";
-    my_card = new MultiFace(cardname);
+    /* Detect audio interface
+     * FIXME: Should probably be somewhere else
+     */
+    {
+	    int card = -1;
+	    char *shortname, *name;
+	    while (snd_card_next(&card) >= 0) {
+		    if (card < 0) {
+			    break;
+		    }
+		    snd_card_get_longname(card, &name);
+		    snd_card_get_name(card, &shortname);
+		    printf("Card %d: %s\n", card, name);
+		    if (!strncmp(name, "RME Hammerfall DSP + Multiface", 30)) {
+			    printf("Multiface found: %s\n",
+					    shortname);
+
+			    std::string cardname = "hw:" + std::to_string(card);
+			    my_card = new MultiFace(cardname);
+		    }
+
+		    free(shortname);
+		    free(name);
+	    }
+    }
+
+
+
     my_card->open();
 
     /* this simply creates a grid of toggle buttons
