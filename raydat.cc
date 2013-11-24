@@ -50,7 +50,7 @@ std::string RayDat::getSourceName(int source)
     if (source < getSourceChannels()/2) {
         ret = labels_raydat_ss[source];
     } else {
-        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2));
+        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2) + 1);
         //ret = labels_mf_ss[source - getSourceChannels()/2];
     }
 
