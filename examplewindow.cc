@@ -3,8 +3,8 @@
 #include <iostream>
 #include <iomanip>
 #include "examplewindow.h"
-#include "audioclass.h"
 #include "multiface.h"
+#include "raydat.h"
 #include "fadercell.h"
 
 using Glib::ustring;
@@ -53,7 +53,13 @@ ExampleWindow::ExampleWindow()
 
 			    std::string cardname = "hw:" + std::to_string(card);
 			    my_card = new MultiFace(cardname);
+		    } else if (!strncmp(name, "RME RayDAT", 10)) {
+			    printf("RME RayDAT found!\n");
+
+			    std::string cardname = "hw:" + std::to_string(card);
+			    my_card = new RayDat(cardname);
 		    }
+
 
 		    free(shortname);
 		    free(name);
