@@ -33,14 +33,23 @@ void FaderCell::set_value(double value) {
 
 	m_label.set_markup(m_string_value);
 
+	std::string color;
+
 	/* green */
 	if (0.0 == value) {
-		m_label.override_background_color(Gdk::RGBA("#00ff00"));
+		color = "#00ff00";
 	} else if (6.0 > value) {
-		m_label.override_background_color(Gdk::RGBA("yellow"));
+		color = "yellow";
 	} else {
-		m_label.unset_background_color();
+		if (0 == (m_source % 2)) {
+			color="darkgrey";
+		} else {
+			//m_label.unset_background_color();
+			color = "lightgrey";
+		}
 	}
+
+	m_label.override_background_color(Gdk::RGBA(color));
 }
 
 bool FaderCell::on_fadercell_clicked(GdkEventButton *ev)

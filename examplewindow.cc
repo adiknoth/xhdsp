@@ -24,11 +24,20 @@ ExampleWindow::ExampleWindow()
      * the vertical. */
     m_ScrolledWindow.set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_NEVER);
 
+#if 0
+    m_ScrolledWindow.set_halign(Gtk::ALIGN_FILL);
+    m_ScrolledWindow.set_valign(Gtk::ALIGN_FILL);
+#endif
+    m_ScrolledWindow.set_vexpand(true);
+
     get_content_area()->add(m_ScrolledWindow);
 
     /* set the spacing to 10 on x and 10 on y */
     m_Grid.set_row_spacing(0);
-    m_Grid.set_column_spacing(0);
+    m_Grid.set_column_spacing(1);
+
+    m_Grid.set_row_homogeneous(true);
+    m_Grid.set_column_homogeneous(true);
 
     /* pack the grid into the scrolled window */
     m_ScrolledWindow.add(m_Grid);
@@ -100,7 +109,6 @@ ExampleWindow::ExampleWindow()
         m_Grid.attach(*pButton, dest, -1, 1, 1);
     }
 
-#if 1
     /* Add a "close" button to the bottom of the dialog */
     m_Button_Close.signal_clicked().connect( sigc::mem_fun(*this,
                 &ExampleWindow::on_button_close));
@@ -115,7 +123,8 @@ ExampleWindow::ExampleWindow()
     /* This grabs this button to be the default button. Simply hitting
      * the "Enter" key will cause this button to activate. */
     m_Button_Close.grab_default();
-#endif
+
+    pBox->set_vexpand(false);
 
     show_all_children();
 }
