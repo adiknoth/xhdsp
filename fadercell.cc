@@ -8,12 +8,18 @@ FaderCell::FaderCell(AudioClass& card, int source, int dest) :
 	m_source = source;
 	m_dest = dest;
 
-	set_events(Gdk::BUTTON_PRESS_MASK);
+	set_events(Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK | Gdk::BUTTON_MOTION_MASK | Gdk::POINTER_MOTION_HINT_MASK);
 	add(m_eventbox);
 	m_eventbox.add(m_label);
 
 	m_eventbox.signal_button_press_event().connect(sigc::mem_fun(*this,
 				&FaderCell::on_fadercell_clicked), false);
+
+	m_eventbox.signal_button_release_event().connect(sigc::mem_fun(*this,
+				&FaderCell::on_fadercell_clicked), false);
+
+	m_eventbox.signal_motion_notify_event().connect(sigc::mem_fun(*this,
+				&FaderCell::on_fadercell_motion), false);
 
 	m_label.set_tooltip_text ("source: " + m_card.getSourceName(m_source) + " -> dest: " + m_card.getDestName(m_dest));
 }
@@ -23,7 +29,7 @@ long int FaderCell::get_value()
 	return m_value;
 }
 
-void FaderCell::set_value(double value) {
+void FaderCell::set_value(double value, bool write_hw) {
 	m_value = value;
 
 	if (DBL_MAX != value) {
@@ -52,25 +58,65 @@ void FaderCell::set_value(double value) {
 	}
 
 	m_label.override_background_color(Gdk::RGBA(color));
+
+	if (write_hw) {
+		m_card.setGaindB(m_source, m_dest, m_value);
+	}
 }
 
 bool FaderCell::on_fadercell_clicked(GdkEventButton *ev)
 {
 	double new_value;
-	printf ("%i: %i\n", m_source, m_dest);
 
-	if (ev->button != 1) {
-		new_value = -6.0;
-	} else if (m_value != 0.0) {
-		new_value = 0.0;
-	} else {
-		new_value = DBL_MAX;
+	if (GDK_BUTTON_RELEASE == ev->type) {
+		_dragging = false;
+		return true;
 	}
 
-	set_value(new_value);
+	if (GDK_2BUTTON_PRESS == ev->type) {
+		if (m_value <= 6.0) {
+			new_value = DBL_MAX;
+		} else {
+			new_value = 0.0;
+		}
+		set_value(new_value, true);
+	}
 
-	m_card.setGaindB(m_source, m_dest, new_value);
+	if (GDK_BUTTON_PRESS == ev->type) {
+		_dragging = true;
+
+		m_last_x = ev->x;
+		m_last_y = ev->y;
+	}
+
+	printf ("ev %i on %i: %i\n", ev->type, m_source, m_dest);
 
 	/* true == fully handled */
 	return true;
+}
+
+bool FaderCell::on_fadercell_motion(GdkEventMotion *ev)
+{
+	if (! _dragging ) {
+		return false;
+	}
+
+	double gain_delta = (m_last_y - ev->y);
+	gain_delta *= 10.0;
+
+	gain_delta = round(gain_delta) / 10.0;
+
+	if (gain_delta > 6.0)
+		gain_delta = 6.0;
+
+	if (gain_delta < -100.0)
+		gain_delta = DBL_MAX;
+
+	printf ("ak-adjust: %g\n", gain_delta);
+
+	set_value(gain_delta, true);
+
+
+
+	return false;
 }

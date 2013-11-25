@@ -105,6 +105,10 @@ int AudioClass::setGaindB(int source, int dest, double gaindB)
     if (gain > 65535)
         gain = 65535;
 
+    if (gain < 0)
+	    gain = 0;
+
+
     printf ("gain to write: %i\n", gain);
 
     setGain(source, dest, gain);
