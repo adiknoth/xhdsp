@@ -14,6 +14,8 @@ FaderCell::FaderCell(AudioClass& card, int source, int dest) :
 
 	m_eventbox.signal_button_press_event().connect(sigc::mem_fun(*this,
 				&FaderCell::on_fadercell_clicked), false);
+
+	m_label.set_tooltip_text ("source: " + m_card.getSourceName(m_source) + " -> dest: " + m_card.getDestName(m_dest));
 }
 
 long int FaderCell::get_value()
