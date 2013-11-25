@@ -20,8 +20,8 @@ public:
 protected:
 
 private:
-	Gtk::Frame m_frame;
 	Gtk::EventBox m_eventbox;
+	Gtk::Label m_label;
 	double m_value;
 	int m_source;
 	int m_dest;
