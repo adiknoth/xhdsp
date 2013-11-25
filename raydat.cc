@@ -73,8 +73,8 @@ int RayDat::destToALSA(int dest)
     return dest_map_raydat_ss[dest];
 }
 
-RayDat::RayDat(std::string cardname) :
-	AudioClass(cardname)
+RayDat::RayDat(std::string cardname, int index) :
+	AudioClass(cardname, index)
 {
 	m_playbackoffset = 64;
 	m_sourcechannels = 36*2;

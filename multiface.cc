@@ -62,8 +62,8 @@ int MultiFace::destToALSA(int dest)
     return dest_map_mf_ss[dest];
 }
 
-MultiFace::MultiFace(std::string cardname) :
-	AudioClass(cardname)
+MultiFace::MultiFace(std::string cardname, int index) :
+	AudioClass(cardname, index)
 {
 	m_playbackoffset = 26;
 	m_sourcechannels = 18*2;

@@ -21,7 +21,7 @@ void AudioClass::open()
     int err;
 
 
-    if ((err = snd_ctl_open(&m_handle, m_cardname.c_str(), 0)) < 0) {
+    if ((err = snd_ctl_open(&m_handle, m_devicename.c_str(), 0)) < 0) {
         complain(err);
         exit (1);
     }
@@ -137,10 +137,15 @@ double AudioClass::getGaindB(int source, int dest)
 }
 
 
+std::string AudioClass::getCardname()
+{
+	return m_cardname;
+}
 
-AudioClass::AudioClass(std::string cardname) :
+AudioClass::AudioClass(std::string cardname, int index) :
 	m_cardname(cardname)
 {
+    m_devicename = "hw:" + std::to_string(index);
     printf ("audioclass opened\n");
 }
 

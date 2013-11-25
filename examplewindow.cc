@@ -12,7 +12,6 @@ using Glib::ustring;
 ExampleWindow::ExampleWindow()
     : m_Button_Close("Close")
 {
-    set_title("xhdsp - Multiface");
     set_border_width(0);
     //set_size_request(300, 300);
 
@@ -51,13 +50,11 @@ ExampleWindow::ExampleWindow()
 			    printf("Multiface found: %s\n",
 					    shortname);
 
-			    std::string cardname = "hw:" + std::to_string(card);
-			    my_card = new MultiFace(cardname);
+			    my_card = new MultiFace(shortname, card);
 		    } else if (!strncmp(name, "RME RayDAT", 10)) {
 			    printf("RME RayDAT found!\n");
 
-			    std::string cardname = "hw:" + std::to_string(card);
-			    my_card = new RayDat(cardname);
+			    my_card = new RayDat(shortname, card);
 		    }
 
 
@@ -65,6 +62,8 @@ ExampleWindow::ExampleWindow()
 		    free(name);
 	    }
     }
+
+    set_title("xhdsp " + my_card->getCardname());
 
 
 

@@ -6,7 +6,7 @@
 class MultiFace : public AudioClass
 {
 public:
-	MultiFace(std::string cardname);
+	MultiFace(std::string cardname, int index);
 	std::string getDestName(int dest);
 	std::string getSourceName(int source);
 
