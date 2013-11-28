@@ -30,8 +30,9 @@ private:
 	Glib::ustring m_string_value;
 
 	bool _dragging = false;
-	int m_last_x;
-	int m_last_y;
+	int _last_x;
+	int _last_y;
+	double _last_value;
 };
 
 #endif /* _FADERCELL_H */

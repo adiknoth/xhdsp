@@ -85,8 +85,10 @@ bool FaderCell::on_fadercell_clicked(GdkEventButton *ev)
 	if (GDK_BUTTON_PRESS == ev->type) {
 		_dragging = true;
 
-		m_last_x = ev->x;
-		m_last_y = ev->y;
+		_last_x = ev->x;
+		_last_y = ev->y;
+		_last_value = m_value;
+
 	}
 
 	printf ("ev %i on %i: %i\n", ev->type, m_source, m_dest);
@@ -101,20 +103,22 @@ bool FaderCell::on_fadercell_motion(GdkEventMotion *ev)
 		return false;
 	}
 
-	double gain_delta = (m_last_y - ev->y);
+	double gain_delta = (_last_y - ev->y);
 	gain_delta *= 10.0;
 
 	gain_delta = round(gain_delta) / 10.0;
 
-	if (gain_delta > 6.0)
-		gain_delta = 6.0;
+	double new_gain = _last_value + gain_delta;
 
-	if (gain_delta < -100.0)
-		gain_delta = DBL_MAX;
+	if (new_gain > 6.0)
+		new_gain = 6.0;
 
-	printf ("ak-adjust: %g\n", gain_delta);
+	if (new_gain < -100.0)
+		new_gain = DBL_MAX;
 
-	set_value(gain_delta, true);
+	printf ("ak-adjust: %g\n", new_gain);
+
+	set_value(new_gain, true);
 
 
 
