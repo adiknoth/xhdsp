@@ -1,5 +1,5 @@
 #include "audioclass.h"
-#include <glibmm/ustring.h>
+#include <cfloat>
 #include <cmath>
 #include <iostream>
 #include <iomanip>
