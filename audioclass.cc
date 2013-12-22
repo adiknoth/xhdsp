@@ -154,12 +154,12 @@ int AudioClass::destToALSA(int dest)
 
 int AudioClass::sourceToALSA(int source)
 {
-    if (source < getSourceChannels()/2) {
+    if (source < m_inputchannels) {
         /* input channels */
-        return channel_map_ss[source];
+        return channel_map_in_ss[source];
     } else {
         /* playback channels */
-        return getPlaybackOffset()+channel_map_ss[source-getSourceChannels()/2];
+        return getPlaybackOffset()+channel_map_out_ss[source-m_inputchannels];
     }
 };
 
@@ -172,10 +172,10 @@ std::string AudioClass::getSourceName(int source)
 {
     std::string ret;
 
-    if (source < getSourceChannels()/2) {
+    if (source < m_inputchannels) {
         ret = labels_in_ss[source];
     } else {
-        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2) + 1);
+        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - m_inputchannels) + 1);
     }
 
     return ret;

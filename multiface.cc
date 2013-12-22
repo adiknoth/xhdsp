@@ -30,10 +30,12 @@ MultiFace::MultiFace(std::string cardname, int index) :
 	AudioClass(cardname, index)
 {
 	m_playbackoffset = 26;
-	m_sourcechannels = 18*2;
+	m_inputchannels = 18;
+	m_sourcechannels = 2 * m_inputchannels;
 	m_destchannels = 10*2;
 	dest_map_ss = dest_map_mf_ss;
-	channel_map_ss = channel_map_mf_ss;
+	channel_map_in_ss = channel_map_mf_ss;
+	channel_map_out_ss = channel_map_mf_ss;
 	labels_in_ss = labels_mf_ss;
 	labels_out_ss = labels_mf_ss;
     printf ("multiface opened\n");
