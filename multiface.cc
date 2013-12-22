@@ -34,6 +34,7 @@ MultiFace::MultiFace(std::string cardname, int index) :
 	m_destchannels = 10*2;
 	dest_map_ss = dest_map_mf_ss;
 	channel_map_ss = channel_map_mf_ss;
-	labels_ss = labels_mf_ss;
+	labels_in_ss = labels_mf_ss;
+	labels_out_ss = labels_mf_ss;
     printf ("multiface opened\n");
 }

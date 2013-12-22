@@ -44,6 +44,7 @@ RayDat::RayDat(std::string cardname, int index) :
 	m_destchannels = 36;
 	dest_map_ss = dest_map_raydat_ss;
 	channel_map_ss = channel_map_raydat_ss;
-	labels_ss = labels_raydat_ss;
+	labels_in_ss = labels_raydat_ss;
+	labels_out_ss = labels_raydat_ss;
     printf ("RayDAT opened\n");
 }
