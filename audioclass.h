@@ -27,7 +27,8 @@ class AudioClass
 	int m_playbackoffset;
 	std::vector<char> dest_map_ss;
 	std::vector<char> channel_map_ss;
-	std::vector<std::string> labels_ss;
+	std::vector<std::string> labels_in_ss;
+	std::vector<std::string> labels_out_ss;
 	int m_sourcechannels;
 	int m_destchannels;
 
