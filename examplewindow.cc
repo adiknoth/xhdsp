@@ -5,6 +5,7 @@
 #include "examplewindow.h"
 #include "multiface.h"
 #include "raydat.h"
+#include "aio.h"
 #include "fadercell.h"
 
 using Glib::ustring;
@@ -64,6 +65,9 @@ ExampleWindow::ExampleWindow()
 			    printf("RME RayDAT found!\n");
 
 			    my_card = new RayDat(shortname, card);
+		    } else if (!strncmp(name, "RME AIO", 7)) {
+			    printf("RME AIO found: %s\n", shortname);
+			    my_card = new AIO(shortname, card);
 		    }
 
 
