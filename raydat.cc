@@ -13,7 +13,7 @@ static const std::vector<char> dest_map_raydat_ss = {
         0, 1, 2, 3
 };
 
-char channel_map_raydat_ss[] = {
+static const std::vector<char> channel_map_raydat_ss = {
         4, 5, 6, 7, 8, 9, 10, 11,       /* ADAT 1 */
         12, 13, 14, 15, 16, 17, 18, 19, /* ADAT 2 */
         20, 21, 22, 23, 24, 25, 26, 27, /* ADAT 3 */
@@ -27,7 +27,7 @@ char channel_map_raydat_ss[] = {
 };
 
 
-std::vector<std::string> labels_raydat_ss = {
+static const std::vector<std::string> labels_raydat_ss = {
   "A1.1", "A1.2", "A1.3", "A1.4", "A1.5", "A1.6", "A1.7", "A1.8",
   "A2.1", "A2.2", "A2.3", "A2.4", "A2.5", "A2.6", "A2.7", "A2.8",
   "A3.1", "A3.2", "A3.3", "A3.4", "A3.5", "A3.6", "A3.7", "A3.8",
@@ -75,5 +75,6 @@ RayDat::RayDat(std::string cardname, int index) :
 	m_sourcechannels = 36*2;
 	m_destchannels = 36;
 	dest_map_ss = dest_map_raydat_ss;
+	channel_map_ss = channel_map_raydat_ss;
     printf ("RayDAT opened\n");
 }

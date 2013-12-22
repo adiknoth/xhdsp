@@ -12,7 +12,7 @@ static const std::vector<char> dest_map_mf_ss = {
         26, 27 /* phones */
 };
 
-const char channel_map_mf_ss[26] = {
+static const std::vector<char> channel_map_mf_ss = {
         0, 1, 2, 3, 4, 5, 6, 7,         /* Line in */
         16, 17, 18, 19, 20, 21, 22, 23, /* ADAT */
         24, 25,                         /* SPDIF */
@@ -20,7 +20,7 @@ const char channel_map_mf_ss[26] = {
         -1, -1, -1, -1, -1, -1
 };
 
-std::vector<std::string> labels_mf_ss = {
+static const std::vector<std::string> labels_mf_ss = {
     "AN 1", "AN 2", "AN 3", "AN 4", "AN 5", "AN 6", "AN 7", "AN 8",
     "A 1", "A 2", "A 3", "A 4", "A 5", "A 6", "A 7", "A 8",
     "SP.L", "SP.R", "AN.L", "AN.R"
@@ -64,5 +64,6 @@ MultiFace::MultiFace(std::string cardname, int index) :
 	m_sourcechannels = 18*2;
 	m_destchannels = 10*2;
 	dest_map_ss = dest_map_mf_ss;
+	channel_map_ss = channel_map_mf_ss;
     printf ("multiface opened\n");
 }
