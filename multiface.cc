@@ -27,11 +27,6 @@ static const std::vector<std::string> labels_mf_ss = {
 };
 
 
-std::string MultiFace::getDestName(int dest)
-{
-    return labels_mf_ss[dest];
-}
-
 std::string MultiFace::getSourceName(int source)
 {
     std::string ret;
@@ -46,17 +41,6 @@ std::string MultiFace::getSourceName(int source)
     return ret;
 }
 
-int MultiFace::sourceToALSA(int source)
-{
-    if (source < getSourceChannels()/2) {
-        /* input channels */
-        return channel_map_mf_ss[source];
-    } else {
-        /* playback channels */
-        return getPlaybackOffset()+channel_map_mf_ss[source-getSourceChannels()/2];
-    }
-};
-
 MultiFace::MultiFace(std::string cardname, int index) :
 	AudioClass(cardname, index)
 {
@@ -65,5 +49,6 @@ MultiFace::MultiFace(std::string cardname, int index) :
 	m_destchannels = 10*2;
 	dest_map_ss = dest_map_mf_ss;
 	channel_map_ss = channel_map_mf_ss;
+	labels_ss = labels_mf_ss;
     printf ("multiface opened\n");
 }

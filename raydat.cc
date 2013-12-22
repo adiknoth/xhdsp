@@ -37,12 +37,6 @@ static const std::vector<std::string> labels_raydat_ss = {
 };
 
 
-
-std::string RayDat::getDestName(int dest)
-{
-    return labels_raydat_ss[dest];
-}
-
 std::string RayDat::getSourceName(int source)
 {
     std::string ret;
@@ -57,17 +51,6 @@ std::string RayDat::getSourceName(int source)
     return ret;
 }
 
-int RayDat::sourceToALSA(int source)
-{
-    if (source < getSourceChannels()/2) {
-        /* input channels */
-        return channel_map_raydat_ss[source];
-    } else {
-        /* playback channels */
-        return getPlaybackOffset()+channel_map_raydat_ss[source-getSourceChannels()/2];
-    }
-};
-
 RayDat::RayDat(std::string cardname, int index) :
 	AudioClass(cardname, index)
 {
@@ -76,5 +59,6 @@ RayDat::RayDat(std::string cardname, int index) :
 	m_destchannels = 36;
 	dest_map_ss = dest_map_raydat_ss;
 	channel_map_ss = channel_map_raydat_ss;
+	labels_ss = labels_raydat_ss;
     printf ("RayDAT opened\n");
 }

@@ -151,6 +151,21 @@ int AudioClass::destToALSA(int dest)
     return dest_map_ss[dest];
 }
 
+int AudioClass::sourceToALSA(int source)
+{
+    if (source < getSourceChannels()/2) {
+        /* input channels */
+        return channel_map_ss[source];
+    } else {
+        /* playback channels */
+        return getPlaybackOffset()+channel_map_ss[source-getSourceChannels()/2];
+    }
+};
+
+std::string AudioClass::getDestName(int dest)
+{
+    return labels_ss[dest];
+}
 
 AudioClass::AudioClass(std::string cardname, int index) :
 	m_cardname(cardname)

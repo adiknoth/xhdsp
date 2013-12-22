@@ -7,11 +7,7 @@ class RayDat : public AudioClass
 {
 public:
 	RayDat(std::string cardname, int index);
-	std::string getDestName(int dest);
 	std::string getSourceName(int source);
-
-private:
-        int sourceToALSA(int source);
 };
 
 
