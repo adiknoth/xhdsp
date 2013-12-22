@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#include <glibmm/ustring.h>
 
 
 void AudioClass::close()
@@ -166,6 +167,20 @@ std::string AudioClass::getDestName(int dest)
 {
     return labels_ss[dest];
 }
+
+std::string AudioClass::getSourceName(int source)
+{
+    std::string ret;
+
+    if (source < getSourceChannels()/2) {
+        ret = labels_ss[source];
+    } else {
+        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2) + 1);
+    }
+
+    return ret;
+}
+
 
 AudioClass::AudioClass(std::string cardname, int index) :
 	m_cardname(cardname)

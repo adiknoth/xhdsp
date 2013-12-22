@@ -17,7 +17,7 @@ class AudioClass
         virtual int getSourceChannels() { return m_sourcechannels; };
         virtual int getDestChannels() { return m_destchannels; };
         virtual std::string getDestName(int dest);
-        virtual std::string getSourceName(int source) = 0;
+        virtual std::string getSourceName(int source);
         void open();
         void close();
 	std::string getCardname();

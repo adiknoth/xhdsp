@@ -1,5 +1,4 @@
 #include "raydat.h"
-#include <glibmm/ustring.h>
 #include <cmath>
 #include <iostream>
 #include <iomanip>
@@ -36,20 +35,6 @@ static const std::vector<std::string> labels_raydat_ss = {
   "SP.L", "SP.R"
 };
 
-
-std::string RayDat::getSourceName(int source)
-{
-    std::string ret;
-
-    if (source < getSourceChannels()/2) {
-        ret = labels_raydat_ss[source];
-    } else {
-        ret = "Out" + Glib::ustring::format(std::fixed, std::setw(3), (source - getSourceChannels()/2) + 1);
-        //ret = labels_mf_ss[source - getSourceChannels()/2];
-    }
-
-    return ret;
-}
 
 RayDat::RayDat(std::string cardname, int index) :
 	AudioClass(cardname, index)
