@@ -7,12 +7,12 @@ CXXFLAGS := $(DEBUG) -std=c++11 `pkg-config gtkmm-3.0 --cflags`
 %.o: %.cc %.h
 	$(CXX) $(CXXFLAGS) -c $<
 
-simple: $(OBJS)
+xhdsp: $(OBJS)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 
-all: simple
+all: xhdsp
 
 clean:
-	rm -rf *.o simple
+	rm -rf *.o xhdsp
 
