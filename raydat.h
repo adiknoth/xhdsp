@@ -12,7 +12,6 @@ public:
 
 private:
         int sourceToALSA(int source);
-        int destToALSA(int source);
 };
 
 

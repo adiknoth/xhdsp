@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 
-std::vector<char> dest_map_ss = {
+static const std::vector<char> dest_map_mf_ss = {
         0, 1, 2, 3, 4, 5, 6, 7, /* analog */
         16, 17, 18, 19, 20, 21, 22, 23, /* adat */
         24, 25, /* spdif */
@@ -63,5 +63,6 @@ MultiFace::MultiFace(std::string cardname, int index) :
 	m_playbackoffset = 26;
 	m_sourcechannels = 18*2;
 	m_destchannels = 10*2;
+	dest_map_ss = dest_map_mf_ss;
     printf ("multiface opened\n");
 }

@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 
-char dest_map_raydat_ss[] = {
+static const std::vector<char> dest_map_raydat_ss = {
         4, 5, 6, 7, 8, 9, 10, 11,
         12, 13, 14, 15, 16, 17, 18, 19,
         20, 21, 22, 23, 24, 25, 26, 27,
@@ -68,16 +68,12 @@ int RayDat::sourceToALSA(int source)
     }
 };
 
-int RayDat::destToALSA(int dest)
-{
-    return dest_map_raydat_ss[dest];
-}
-
 RayDat::RayDat(std::string cardname, int index) :
 	AudioClass(cardname, index)
 {
 	m_playbackoffset = 64;
 	m_sourcechannels = 36*2;
 	m_destchannels = 36;
+	dest_map_ss = dest_map_raydat_ss;
     printf ("RayDAT opened\n");
 }
