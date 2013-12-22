@@ -146,6 +146,12 @@ std::string AudioClass::getCardname()
 	return m_cardname;
 }
 
+int AudioClass::destToALSA(int dest)
+{
+    return dest_map_ss[dest];
+}
+
+
 AudioClass::AudioClass(std::string cardname, int index) :
 	m_cardname(cardname)
 {

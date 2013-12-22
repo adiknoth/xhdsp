@@ -3,6 +3,7 @@
 
 #include <alsa/asoundlib.h>
 #include <string>
+#include <vector>
 
 class AudioClass
 {
@@ -24,13 +25,14 @@ class AudioClass
     protected:
         virtual int getPlaybackOffset() { return m_playbackoffset; };
 	int m_playbackoffset;
+	std::vector<char> dest_map_ss;
 	int m_sourcechannels;
 	int m_destchannels;
 
     private:
         void complain(int err);
         virtual int sourceToALSA(int source) = 0;
-        virtual int destToALSA(int source) = 0;
+        virtual int destToALSA(int source);
         snd_ctl_t *m_handle;
 	std::string m_devicename;
 	std::string m_cardname;

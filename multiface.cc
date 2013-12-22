@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 
-const char dest_map_mf_ss[] = {
+std::vector<char> dest_map_ss = {
         0, 1, 2, 3, 4, 5, 6, 7, /* analog */
         16, 17, 18, 19, 20, 21, 22, 23, /* adat */
         24, 25, /* spdif */
@@ -56,11 +56,6 @@ int MultiFace::sourceToALSA(int source)
         return getPlaybackOffset()+channel_map_mf_ss[source-getSourceChannels()/2];
     }
 };
-
-int MultiFace::destToALSA(int dest)
-{
-    return dest_map_mf_ss[dest];
-}
 
 MultiFace::MultiFace(std::string cardname, int index) :
 	AudioClass(cardname, index)
